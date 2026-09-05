@@ -1,0 +1,46 @@
+schema_version: 1
+
+context:
+  name: pypresseportal
+  version: "0.1"
+
+package:
+  name: ${{ name|lower }}
+  version: ${{ version }}
+
+source:
+  url: https://pypi.org/packages/source/${{ name[0] }}/${{ name }}/pypresseportal-${{ version }}.tar.gz
+  sha256: bd5088daacdcbd4af4f6358d42c822a293c43f44fb58507cea3cda4bec5ba069
+
+build:
+  number: 2
+  noarch: python
+  script: ${{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
+
+requirements:
+  host:
+    - pip
+    - python ${{ python_min }}.*
+    - requests
+    - setuptools
+  run:
+    - python >=${{ python_min }}
+    - requests
+
+tests:
+  - python:
+      imports:
+        - pypresseportal
+      pip_check: true
+      python_version: ${{ python_min }}
+
+about:
+  summary: Python wrapper for the presseportal.de API
+  license: MIT
+  license_file:
+    - LICENSE
+  homepage: https://github.com/tcmetzger/pypresseportal
+
+extra:
+  recipe-maintainers:
+    - jan-janssen
